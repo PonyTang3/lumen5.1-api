@@ -13,9 +13,11 @@
 $faker = Faker\Factory::create('zh_CN');
 $factory->define(App\Models\User::class, function ($faker) use ($faker) {
     return [
-        'name'     => $faker->name,
-        'email'    => $faker->email,
-        'mobile'   => $faker->phoneNumber,
-        'password' => bcrypt(str_random(10)),
+        'name'       => $faker->name,
+        'email'      => $faker->email,
+        'mobile'     => $faker->phoneNumber,
+        'password'   => bcrypt(str_random(10)),
+        'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+        'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
     ];
 });

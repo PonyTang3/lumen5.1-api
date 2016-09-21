@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\BaseController;
-use App\Repositories\UserRepository;
+use App\Models\Manager;
 use Dingo\Api\Exception\ResourceException;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Illuminate\Http\Request;
@@ -14,18 +14,12 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends BaseController
 {
-    protected $user;
-    public function __construct(UserRepository $user)
-    {
-        parent::__construct();
-        $this->user = $user;
-    }
     /**
      * @api {post} /authorization 登录(login)
      * @apiDescription 登录(login)
      * @apiGroup Auth
      * @apiPermission none
-     * @apiParam {String} user      用户名
+     * @apiParam {String} mobile      用户名
      * @apiParam {String} password  密码
      * @apiVersion 1.0.0
      * @apiSuccessExample {json} Success-Response:
@@ -45,7 +39,7 @@ class AuthController extends BaseController
         $validator = Validator::make(
             $request->all(),
             [
-                'user'     => 'required',
+                'mobile'   => 'required',
                 'password' => 'required',
             ]
         );
@@ -54,11 +48,11 @@ class AuthController extends BaseController
             throw new ResourceException('输入信息有误', $validator->messages());
         }
 
-        $credentials = $request->only('user', 'password');
+        $credentials = $request->only('mobile', 'password');
 
         // 验证失败返回422
         if (!$token = JWTAuth::attempt($credentials)) {
-            throw new ResourceException('用户名或密码不正确');
+            $this->response->error('用户名或密码不正确', 422);
         }
 
         return $this->response->array(compact('token'));
@@ -132,13 +126,6 @@ class AuthController extends BaseController
             [
                 'user'     => 'required|alpha_num|unique:manager',
                 'password' => 'required|min:6',
-            ],
-            [
-                'user.required'     => '用户名必须填写',
-                'user.alpha_num'    => '用户名必须为数字或英文字母',
-                'user.unique'       => '该用户名已被他人注册',
-                'password.required' => '密码必须填写',
-                'password.min'      => '密码最小为:min位',
             ]
         );
 
@@ -157,7 +144,7 @@ class AuthController extends BaseController
         $user = Manager::create($attributes);
 
         if ($user) {
-            throw new StoreResourceFailedException('注册新用户失败');
+            $this->response->error('注册新用户失败', 422);
         }
 
         // 用户注册事件

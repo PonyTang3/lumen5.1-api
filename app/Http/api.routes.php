@@ -20,9 +20,14 @@ $api->version('v1', function ($api) {
             return ['name' => 'tang', 'sex' => 'man'];
         });
 
+        $api->post('login', "AuthController@login");
+
+        $api->get('user', 'UserController@user');
+        $api->get('users', 'UserController@users');
+
         // 开启验证
         $api->group(['middleware' => ['jwt.auth']], function ($api) {
-            $api->get('user', 'AuthenticateController@getAuthenticatedUser');
+            $api->get('token_test', 'AuthController@tokenTest');
         });
     });
 });

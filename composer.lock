@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "66d24fbc21f0519541d81db5c810bc5a",
-    "content-hash": "fa37b2c0a4b0d8ccf7d959de16690f9b",
+    "hash": "9c7a5fcee5982e7445b0b4ee6cd8fb77",
+    "content-hash": "27a0a1583ba43cbf46be51b7d6cdaa23",
     "packages": [
         {
             "name": "basicit/lumen-vendor-publish",
@@ -51,6 +51,60 @@
                 "vendor"
             ],
             "time": "2015-07-01 20:33:15"
+        },
+        {
+            "name": "bosnadev/repositories",
+            "version": "0.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bosnadev/repository.git",
+                "reference": "9444fab1e52463e9f1a56b3da450f3c531d4e9be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/bosnadev/repository/9444fab1e52463e9f1a56b3da450f3c531d4e9be.zip",
+                "reference": "9444fab1e52463e9f1a56b3da450f3c531d4e9be",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "5.*",
+                "illuminate/support": "5.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bosnadev\\Repositories\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Mirza Pasic",
+                    "email": "mirza.pasic@edu.fit.ba"
+                },
+                {
+                    "name": "Maarten Paauw",
+                    "email": "maartenpaauw@gmail.com"
+                }
+            ],
+            "description": "Laravel Repositories",
+            "keywords": [
+                "database",
+                "eloquent",
+                "laravel",
+                "repositories",
+                "repository"
+            ],
+            "time": "2016-04-08 21:35:31"
         },
         {
             "name": "danielstjules/stringy",

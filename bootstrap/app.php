@@ -23,9 +23,10 @@ $app->withFacades();
 
 $app->withEloquent();
 
-$app->configure('auth');
+// class_alias('Tymon\JWTAuth\Facades\JWTAuth', 'JWTAuth');
+// $app->configure('auth');
 $app->configure('jwt');
-$app->configure('repository');
+$app->configure('cache');
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,25 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+$app->singleton(
+    Illuminate\Contracts\Routing\ResponseFactory::class,
+    Illuminate\Routing\ResponseFactory::class
+);
+
+$app->singleton(
+    Illuminate\Cache\CacheManager::class,
+    function ($app) {
+        return $app->make('cache');
+    }
+);
+
+$app->singleton(
+    Illuminate\Auth\AuthManager::class,
+    function ($app) {
+        return $app->make('auth');
+    }
+);
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -67,9 +87,9 @@ $app->singleton(
 //     // Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
 // ]);
 
-// $app->routeMiddleware([
-
-// ]);
+$app->routeMiddleware([
+    'jwt.auth' => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -104,9 +124,9 @@ app('Dingo\Api\Transformer\Factory')->setAdapter(function ($app) {
     return new Dingo\Api\Transformer\Adapter\Fractal(new League\Fractal\Manager, 'include', ',');
 });
 // 使用jwt验证
-// app('Dingo\Api\Auth\Auth')->extend('jwt', function ($app) {
-//     return new Dingo\Api\Auth\Provider\JWT($app['Tymon\JWTAuth\JWTAuth']);
-// });
+app('Dingo\Api\Auth\Auth')->extend('jwt', function ($app) {
+    return new Dingo\Api\Auth\Provider\JWT($app['Tymon\JWTAuth\JWTAuth']);
+});
 // Dingo Error Format
 $app['Dingo\Api\Exception\Handler']->setErrorFormat([
     'error' => [

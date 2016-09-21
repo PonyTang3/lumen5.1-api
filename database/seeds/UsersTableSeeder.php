@@ -11,6 +11,13 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = factory('App\Models\User', 50)->create();
+        // 插入批量随机用户
+        $users = factory('App\Models\User', 50)->make()->toArray();
+        \App\Models\User::insert($users);
+        // 插入特定用户
+        factory('App\Models\User')->create([
+            'mobile'      => '13714909070',
+            'password' => bcrypt('qq669846'),
+        ]);
     }
 }

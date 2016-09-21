@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'model' => env('AUTH_MODEL', 'App\User'),
+    'model' => env('AUTH_MODEL', 'App\Models\User'),
 
     /*
     |--------------------------------------------------------------------------
